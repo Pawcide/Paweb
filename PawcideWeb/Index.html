@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawcide</title>
+    <style>
+        /* --- GLOBAL SETUP --- */
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            background-color: #111;
+            font-family: sans-serif;
+        }
+
+        /* --- SECTION 1: HERO / TITLE SECTION --- */
+        #section-1 {
+            position: relative;
+            z-index: 2; 
+            width: 100%;
+            aspect-ratio: 352 / 192; 
+            
+            background-image: url('BackgroundS1.png');
+            background-repeat: no-repeat;
+            background-size: 100% auto;
+            background-position: top center;
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Glitch-Free Title Stack */
+        .title-wrapper {
+            width: 100%;
+            max-width: 600px; 
+            padding: 20px;
+            margin-top: 5vh;
+            display: grid; 
+            place-items: center;
+            cursor: pointer;
+        }
+
+        .title-wrapper img {
+            grid-area: 1 / 1; 
+            width: 100%;
+            height: auto;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            transition: opacity 0.05s ease; 
+        }
+
+        .title-wrapper.playing #title-gif { opacity: 1; pointer-events: auto; }
+        .title-wrapper.playing #title-still { opacity: 0; pointer-events: none; }
+
+        .title-wrapper.stopped #title-gif { opacity: 0; pointer-events: none; }
+        .title-wrapper.stopped #title-still { opacity: 1; pointer-events: auto; }
+
+
+        /* --- SECTION 2: ABOUT ME SECTION --- */
+        #section-2 {
+            position: relative;
+            z-index: 1; 
+            margin-top: -15vw; 
+            padding: 15vw 20px 60px 20px;
+            width: 100%;
+            
+            background-image: url('BackgroundS2.gif');
+            background-repeat: repeat;
+            background-size: 180px 180px;
+            animation: scrollS2 12s linear infinite;
+            
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            
+            display: flex;
+            justify-content: center;
+        }
+
+        @keyframes scrollS2 {
+            from { background-position: 0 0; }
+            to { background-position: -180px 180px; }
+        }
+
+        .about-image {
+            display: block;
+            width: 100%;
+            max-width: 650px; 
+            height: auto;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+
+        /* --- SECTION 3: GAMES & CYCLING ART --- */
+        #section-3 {
+            width: 100%;
+            padding: 60px 0; 
+            overflow: hidden; 
+            
+            background-image: url('BackgroundS3.gif');
+            background-repeat: repeat;
+            background-size: 180px 180px; 
+            animation: scrollS3 12s linear infinite;
+            
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+
+            /* Stacks the new Games image and the marquee vertically */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px; /* Generous spacing between the content blocks */
+        }
+
+        @keyframes scrollS3 {
+            from { background-position: 0 0; }
+            to { background-position: -180px 180px; }
+        }
+
+        /* New Games Image Layout (Matches Section 2 About Me sizing perfectly) */
+        .games-image {
+            display: block;
+            width: 100%;
+            max-width: 650px; 
+            height: auto;
+            padding: 0 20px; /* Keeps it safe from hitting screen edges on mobile */
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        /* The hidden outer viewport wrapper */
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            cursor: grab; 
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        
+        .marquee-container:active {
+            cursor: grabbing; 
+        }
+
+        /* The moving track containing both sets of items */
+        .marquee-track {
+            display: flex;
+            gap: 40px; 
+            padding-right: 40px; 
+            width: max-content;
+            animation: loopMarquee 40s linear infinite; 
+        }
+
+        /* Individual Frame Setup */
+        .marquee-item {
+            flex: 0 0 280px; 
+            height: 280px;
+            background-color: transparent; 
+            border: 6px solid #000; 
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        /* EXEMPTION CLASS: For wide images */
+        .marquee-item.wide {
+            flex: 0 0 480px; 
+        }
+
+        .marquee-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            display: block;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .marquee-container:active .marquee-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes loopMarquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } 
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FIRST SECTION -->
+    <section id="section-1">
+        <div id="title-container" class="title-wrapper playing">
+            <img id="title-gif" src="PawcideS1.gif" alt="Pawcide Animated Title">
+            <img id="title-still" src="PawcideS1_still.png" alt="Pawcide Static Title">
+        </div>
+    </section>
+
+    <!-- SECOND SECTION -->
+    <section id="section-2">
+        <img src="AboutMeS2.png" alt="About Robin" class="about-image">
+    </section>
+
+    <!-- THIRD SECTION -->
+    <section id="section-3">
+        
+        <!-- Games Graphic (Top of Section 3) -->
+        <img src="GamesS3.png" alt="Games Info" class="games-image">
+
+        <!-- Art Carousel (Moved below the Games Graphic) -->
+        <div class="marquee-container">
+            <div class="marquee-track">
+                
+                <!-- === ORIGINAL SET === -->
+                <div class="marquee-item"><img src="Alien Fight2.gif" alt="Alien Fight"></div>
+                <div class="marquee-item"><img src="Conspiracy.png" alt="Conspiracy"></div>
+                <div class="marquee-item"><img src="Lamp.png" alt="Lamp"></div>
+                <div class="marquee-item"><img src="pumpkin field.png" alt="Pumpkin Field"></div>
+                <div class="marquee-item"><img src="Walking Candle.gif" alt="Walking Candle"></div>
+                <div class="marquee-item"><img src="birds.png" alt="Birds"></div>
+                <div class="marquee-item"><img src="Electricity.png" alt="Electricity"></div>
+                <div class="marquee-item"><img src="BarmovBP.png" alt="BarmovBP"></div>
+                <div class="marquee-item"><img src="Cresta.png" alt="Cresta"></div>
+                <div class="marquee-item"><img src="Lipstick.gif" alt="Lipstick"></div>
+                <div class="marquee-item"><img src="blueberries.png" alt="Blueberries"></div>
+                <div class="marquee-item wide"><img src="paper pond.png" alt="Paper Pond"></div>
+
+                <!-- === DUPLICATE CLONE SET === -->
+                <div class="marquee-item"><img src="Alien Fight2.gif" alt="Alien Fight"></div>
+                <div class="marquee-item"><img src="Conspiracy.png" alt="Conspiracy"></div>
+                <div class="marquee-item"><img src="Lamp.png" alt="Lamp"></div>
+                <div class="marquee-item"><img src="pumpkin field.png" alt="Pumpkin Field"></div>
+                <div class="marquee-item"><img src="Walking Candle.gif" alt="Walking Candle"></div>
+                <div class="marquee-item"><img src="birds.png" alt="Birds"></div>
+                <div class="marquee-item"><img src="Electricity.png" alt="Electricity"></div>
+                <div class="marquee-item"><img src="BarmovBP.png" alt="BarmovBP"></div>
+                <div class="marquee-item"><img src="Cresta.png" alt="Cresta"></div>
+                <div class="marquee-item"><img src="Lipstick.gif" alt="Lipstick"></div>
+                <div class="marquee-item"><img src="blueberries.png" alt="Blueberries"></div>
+                <div class="marquee-item wide"><img src="paper pond.png" alt="Paper Pond"></div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- UI LOGIC SCRIPT -->
+    <script>
+        const GIF_DURATION = 1800; 
+        const GIF_SRC = 'PawcideS1.gif';
+        
+        const titleContainer = document.getElementById('title-container');
+        const titleGif = document.getElementById('title-gif');
+        let timerId = null;
+
+        function playAnimation() {
+            clearTimeout(timerId);
+            titleContainer.classList.remove('stopped');
+            titleContainer.classList.add('playing');
+            titleGif.src = GIF_SRC + '?t=' + new Date().getTime();
+
+            timerId = setTimeout(() => {
+                titleContainer.classList.remove('playing');
+                titleContainer.classList.add('stopped');
+            }, GIF_DURATION);
+        }
+
+        window.addEventListener('load', playAnimation);
+        titleContainer.addEventListener('click', playAnimation);
+    </script>
+
+</body>
+</html>
