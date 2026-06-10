@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pawcide</title>
     <style>
-        /* --- GLOBAL SETUP --- */
         * {
             box-sizing: border-box;
         }
@@ -19,24 +18,20 @@
             font-family: sans-serif;
         }
 
-        /* --- SECTION 1: HERO / TITLE SECTION --- */
         #section-1 {
             position: relative;
             z-index: 2; 
             width: 100%;
             aspect-ratio: 352 / 192; 
-            
             background-image: url('BackgroundS1.png');
             background-repeat: no-repeat;
             background-size: 100% auto;
             background-position: top center;
-            
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* Glitch-Free Title Stack */
         .title-wrapper {
             width: 100%;
             max-width: 600px; 
@@ -58,27 +53,21 @@
 
         .title-wrapper.playing #title-gif { opacity: 1; pointer-events: auto; }
         .title-wrapper.playing #title-still { opacity: 0; pointer-events: none; }
-
         .title-wrapper.stopped #title-gif { opacity: 0; pointer-events: none; }
         .title-wrapper.stopped #title-still { opacity: 1; pointer-events: auto; }
 
-
-        /* --- SECTION 2: ABOUT ME SECTION --- */
         #section-2 {
             position: relative;
             z-index: 1; 
             margin-top: -15vw; 
             padding: 15vw 20px 60px 20px;
             width: 100%;
-            
             background-image: url('BackgroundS2.gif');
             background-repeat: repeat;
             background-size: 180px 180px;
             animation: scrollS2 12s linear infinite;
-            
             image-rendering: pixelated;
             image-rendering: crisp-edges;
-            
             display: flex;
             justify-content: center;
         }
@@ -97,26 +86,20 @@
             image-rendering: crisp-edges;
         }
 
-
-        /* --- SECTION 3: GAMES & CYCLING ART --- */
         #section-3 {
             width: 100%;
             padding: 60px 0; 
             overflow: hidden; 
-            
             background-image: url('BackgroundS3.gif');
             background-repeat: repeat;
             background-size: 180px 180px; 
             animation: scrollS3 12s linear infinite;
-            
             image-rendering: pixelated;
             image-rendering: crisp-edges;
-
-            /* Stacks the new Games image and the marquee vertically */
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 60px; /* Generous spacing between the content blocks */
+            gap: 60px; 
         }
 
         @keyframes scrollS3 {
@@ -124,18 +107,16 @@
             to { background-position: -180px 180px; }
         }
 
-        /* New Games Image Layout (Matches Section 2 About Me sizing perfectly) */
         .games-image {
             display: block;
             width: 100%;
             max-width: 650px; 
             height: auto;
-            padding: 0 20px; /* Keeps it safe from hitting screen edges on mobile */
+            padding: 0 20px; 
             image-rendering: pixelated;
             image-rendering: crisp-edges;
         }
 
-        /* The hidden outer viewport wrapper */
         .marquee-container {
             width: 100%;
             overflow: hidden;
@@ -149,7 +130,6 @@
             cursor: grabbing; 
         }
 
-        /* The moving track containing both sets of items */
         .marquee-track {
             display: flex;
             gap: 40px; 
@@ -158,7 +138,6 @@
             animation: loopMarquee 40s linear infinite; 
         }
 
-        /* Individual Frame Setup */
         .marquee-item {
             flex: 0 0 280px; 
             height: 280px;
@@ -168,7 +147,6 @@
             overflow: hidden;
         }
 
-        /* EXEMPTION CLASS: For wide images */
         .marquee-item.wide {
             flex: 0 0 480px; 
         }
@@ -190,11 +168,50 @@
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); } 
         }
+
+        .floating-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10000; 
+            pointer-events: auto;
+            animation: multiEdgeFloat var(--duration) linear forwards;
+        }
+
+        .floating-gif-item {
+            width: 64px; 
+            height: 64px;
+            display: block;
+            cursor: pointer;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            user-select: none;
+            -webkit-user-select: none; 
+        }
+
+        .floating-gif-item.shrinking {
+            animation: slowThenFastShrink 1.0s linear forwards;
+            pointer-events: none; 
+        }
+
+        @keyframes multiEdgeFloat {
+            0% {
+                transform: translate(var(--start-x), var(--start-y)) rotate(0deg);
+            }
+            100% {
+                transform: translate(var(--end-x), var(--end-y)) rotate(var(--total-rot));
+            }
+        }
+
+        @keyframes slowThenFastShrink {
+            0% { transform: scale(1); }
+            65% { transform: scale(0.7); } 
+            100% { transform: scale(0); }
+        }
     </style>
 </head>
 <body>
 
-    <!-- FIRST SECTION -->
     <section id="section-1">
         <div id="title-container" class="title-wrapper playing">
             <img id="title-gif" src="PawcideS1.gif" alt="Pawcide Animated Title">
@@ -202,22 +219,15 @@
         </div>
     </section>
 
-    <!-- SECOND SECTION -->
     <section id="section-2">
         <img src="AboutMeS2.png" alt="About Robin" class="about-image">
     </section>
 
-    <!-- THIRD SECTION -->
     <section id="section-3">
-        
-        <!-- Games Graphic (Top of Section 3) -->
         <img src="GamesS3.png" alt="Games Info" class="games-image">
 
-        <!-- Art Carousel (Moved below the Games Graphic) -->
         <div class="marquee-container">
             <div class="marquee-track">
-                
-                <!-- === ORIGINAL SET === -->
                 <div class="marquee-item"><img src="Alien Fight2.gif" alt="Alien Fight"></div>
                 <div class="marquee-item"><img src="Conspiracy.png" alt="Conspiracy"></div>
                 <div class="marquee-item"><img src="Lamp.png" alt="Lamp"></div>
@@ -231,7 +241,6 @@
                 <div class="marquee-item"><img src="blueberries.png" alt="Blueberries"></div>
                 <div class="marquee-item wide"><img src="paper pond.png" alt="Paper Pond"></div>
 
-                <!-- === DUPLICATE CLONE SET === -->
                 <div class="marquee-item"><img src="Alien Fight2.gif" alt="Alien Fight"></div>
                 <div class="marquee-item"><img src="Conspiracy.png" alt="Conspiracy"></div>
                 <div class="marquee-item"><img src="Lamp.png" alt="Lamp"></div>
@@ -244,16 +253,13 @@
                 <div class="marquee-item"><img src="Lipstick.gif" alt="Lipstick"></div>
                 <div class="marquee-item"><img src="blueberries.png" alt="Blueberries"></div>
                 <div class="marquee-item wide"><img src="paper pond.png" alt="Paper Pond"></div>
-
             </div>
         </div>
     </section>
 
-    <!-- UI LOGIC SCRIPT -->
     <script>
         const GIF_DURATION = 1800; 
         const GIF_SRC = 'PawcideS1.gif';
-        
         const titleContainer = document.getElementById('title-container');
         const titleGif = document.getElementById('title-gif');
         let timerId = null;
@@ -269,9 +275,76 @@
                 titleContainer.classList.add('stopped');
             }, GIF_DURATION);
         }
-
         window.addEventListener('load', playAnimation);
         titleContainer.addEventListener('click', playAnimation);
+
+        const SPAWN_POOL = ['Yourefunny.gif', 'Wave.gif', 'Silly.gif'];
+        const MAX_SCREEN_ITEMS = 5;    
+        const SPAWN_INTERVAL_MS = 4000; 
+
+        function createFloatingElement() {
+            if (document.querySelectorAll('.floating-container').length >= MAX_SCREEN_ITEMS) {
+                return;
+            }
+
+            const container = document.createElement('div');
+            container.classList.add('floating-container');
+
+            const gif = document.createElement('img');
+            gif.src = SPAWN_POOL[Math.floor(Math.random() * SPAWN_POOL.length)];
+            gif.alt = "Floating Arcade Asset";
+            gif.classList.add('floating-gif-item');
+
+            const edges = ['bottom', 'top', 'left'];
+            const chosenEdge = edges[Math.floor(Math.random() * edges.length)];
+
+            let startX, startY, endX, endY;
+
+            if (chosenEdge === 'bottom') {
+                startX = Math.floor(Math.random() * 90) + 5 + 'vw';
+                startY = '105vh';
+                endX = `calc(${startX} + ${(Math.random() * 20 - 10)}vw)`;
+                endY = '-10vh';
+            } else if (chosenEdge === 'top') {
+                startX = Math.floor(Math.random() * 90) + 5 + 'vw';
+                startY = '-10vh';
+                endX = `calc(${startX} + ${(Math.random() * 20 - 10)}vw)`;
+                endY = '105vh';
+            } else if (chosenEdge === 'left') {
+                startX = '-10vw';
+                startY = Math.floor(Math.random() * 90) + 5 + 'vh';
+                endX = '105vw';
+                endY = `calc(${startY} + ${(Math.random() * 20 - 10)}vh)`;
+            }
+
+            const flightTime = (Math.random() * 6 + 12) + 's';
+            const turnSpeed = (Math.random() * 240 + 120) * (Math.random() > 0.5 ? 1 : -1) + 'deg';
+
+            container.style.setProperty('--start-x', startX);
+            container.style.setProperty('--start-y', startY);
+            container.style.setProperty('--end-x', endX);
+            container.style.setProperty('--end-y', endY);
+            container.style.setProperty('--duration', flightTime);
+            container.style.setProperty('--total-rot', turnSpeed);
+
+            gif.addEventListener('click', () => {
+                gif.classList.add('shrinking');
+                gif.addEventListener('animationend', () => {
+                    container.remove();
+                }, { once: true });
+            });
+
+            container.addEventListener('animationend', (e) => {
+                if (e.target === container) {
+                    container.remove();
+                }
+            });
+
+            container.appendChild(gif);
+            document.body.appendChild(container);
+        }
+
+        setInterval(createFloatingElement, SPAWN_INTERVAL_MS);
     </script>
 
 </body>
