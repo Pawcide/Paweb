@@ -69,7 +69,8 @@
             image-rendering: pixelated;
             image-rendering: crisp-edges;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
         }
 
         @keyframes scrollS2 {
@@ -84,6 +85,47 @@
             height: auto;
             image-rendering: pixelated;
             image-rendering: crisp-edges;
+        }
+
+        .clicked-cats-wrapper {
+            position: relative; 
+            width: 100%;
+            max-width: 650px;
+            margin-top: 40px;
+        }
+
+        .clicked-cats-image {
+            display: block;
+            width: 100%;
+            height: auto;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .clicked-cats-row {
+            position: absolute; 
+            top: 44%; 
+            bottom: 6%;
+            left: 6%;
+            right: 6%;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start; 
+            gap: 3% 2%;
+        }
+
+        .clicked-cats-row img {
+            width: 10.5%; 
+            height: auto;
+            aspect-ratio: 1 / 1;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            filter: grayscale(100%) brightness(0.1) contrast(0.7); 
+            transition: filter 0.3s ease; 
+        }
+
+        .clicked-cats-row img.unlocked {
+            filter: none; 
         }
 
         #section-3 {
@@ -218,6 +260,39 @@
             100% { transform: scale(0); }
         }
 
+        /* More Star stuff particle */
+        .star-burst-container {
+            position: fixed;
+            z-index: 10001; 
+            pointer-events: none; 
+        }
+
+        .star-particle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 24px;
+            height: 24px;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            animation: starPop 1s ease-out forwards;
+        }
+
+        @keyframes starPop {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0.4);
+            }
+            30% {
+                opacity: 1;
+                transform: translate(calc(-50% + var(--star-x) * 0.5), calc(-50% + var(--star-y) * 0.5)) scale(1.1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(calc(-50% + var(--star-x)), calc(-50% + var(--star-y))) scale(0.6);
+            }
+        }
+
         #section-4 {
             width: 100%;
             padding: 60px 0;
@@ -261,6 +336,23 @@
 
     <section id="section-2">
         <img src="AboutMeS2.png" alt="About Robin" class="about-image">
+
+        <div class="clicked-cats-wrapper">
+            <img src="AboutClickedCats.png" alt="Clicked Cats" class="clicked-cats-image">
+            <div class="clicked-cats-row" id="clicked-cats-row">
+                <img src="Yourefunny.gif" data-cat="Yourefunny.gif" alt="Clicked cat">
+                <img src="Wave.gif" data-cat="Wave.gif" alt="Clicked cat">
+                <img src="Silly.gif" data-cat="Silly.gif" alt="Clicked cat">
+                <img src="Confused.gif" data-cat="Confused.gif" alt="Clicked cat">
+                <img src="Amused.gif" data-cat="Amused.gif" alt="Clicked cat">
+                <img src="Tired.gif" data-cat="Tired.gif" alt="Clicked cat">
+                <img src="Calico.gif" data-cat="Calico.gif" alt="Clicked cat">
+                <img src="NoReaction.gif" data-cat="NoReaction.gif" alt="Clicked cat">
+                <img src="Dizzy.gif" data-cat="Dizzy.gif" alt="Clicked cat">
+                <img src="Geeked.gif" data-cat="Geeked.gif" alt="Clicked cat">
+                <img src="OrangeTabby.gif" data-cat="OrangeTabby.gif" alt="Clicked cat">
+            </div>
+        </div>
     </section>
 
     <section id="section-3">
@@ -340,7 +432,65 @@
         window.addEventListener('load', playAnimation);
         titleContainer.addEventListener('click', playAnimation);
 
-        const SPAWN_POOL = ['Yourefunny.gif', 'Wave.gif', 'Silly.gif', 'Confused.gif', 'Amused.gif', 'Tired.gif'];
+        // clicked cats tracking thingy section
+        const CATS_KEY = 'pawcide_clicked_cats';
+
+        function getClickedCats() {
+            try {
+                return JSON.parse(localStorage.getItem(CATS_KEY)) || [];
+            } catch (e) {
+                return []; 
+            }
+        }
+
+        function markCatClicked(filename) {
+            const clicked = getClickedCats();
+            if (!clicked.includes(filename)) {
+                clicked.push(filename);
+                localStorage.setItem(CATS_KEY, JSON.stringify(clicked));
+            }
+            refreshClickedCatsRow();
+        }
+
+        function refreshClickedCatsRow() {
+            const clicked = getClickedCats();
+            document.querySelectorAll('#clicked-cats-row img').forEach(img => {
+                if (clicked.includes(img.dataset.cat)) {
+                    img.classList.add('unlocked');
+                }
+            });
+        }
+
+        window.addEventListener('load', refreshClickedCatsRow);
+
+        // little star explosion for new cat
+        function spawnStarBurst(x, y) {
+            const container = document.createElement('div');
+            container.classList.add('star-burst-container');
+            container.style.left = x + 'px';
+            container.style.top = y + 'px';
+
+            const STAR_COUNT = 6;
+            for (let i = 0; i < STAR_COUNT; i++) {
+                const star = document.createElement('img');
+                star.src = 'Star.png';
+                star.alt = '';
+                star.classList.add('star-particle');
+
+                const angle = (Math.PI * 2 / STAR_COUNT) * i + (Math.random() * 0.5 - 0.25);
+                const distance = Math.random() * 40 + 40; 
+                star.style.setProperty('--star-x', Math.cos(angle) * distance + 'px');
+                star.style.setProperty('--star-y', Math.sin(angle) * distance + 'px');
+                star.style.animationDelay = (Math.random() * 0.1) + 's';
+
+                container.appendChild(star);
+            }
+
+            document.body.appendChild(container);
+            setTimeout(() => container.remove(), 1100); 
+        }
+
+        const SPAWN_POOL = ['Yourefunny.gif', 'Wave.gif', 'Silly.gif', 'Confused.gif', 'Amused.gif', 'Tired.gif', 'Calico.gif', 'NoReaction.gif', 'Dizzy.gif', 'Geeked.gif', 'OrangeTabby.gif'];
         const MAX_SCREEN_ITEMS = 5;    
         const SPAWN_INTERVAL_MS = 4000; 
 
@@ -389,7 +539,13 @@
             container.style.setProperty('--duration', flightTime);
             container.style.setProperty('--total-rot', turnSpeed);
 
-            gif.addEventListener('click', () => {
+            gif.addEventListener('click', (e) => {
+                const filename = gif.src.split('/').pop();
+                const isNewCat = !getClickedCats().includes(filename);
+                if (isNewCat) {
+                    spawnStarBurst(e.clientX, e.clientY);
+                }
+                markCatClicked(filename); 
                 gif.classList.add('shrinking');
                 gif.addEventListener('animationend', () => {
                     container.remove();
@@ -405,8 +561,8 @@
             container.appendChild(gif);
             document.body.appendChild(container);
         }
-
         setInterval(createFloatingElement, SPAWN_INTERVAL_MS);
+        //Made by pawcide. For Paweb :3 *licks you* *paws at you*  mrowp meowww
     </script>
 
 </body>
