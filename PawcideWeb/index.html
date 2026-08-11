@@ -160,6 +160,15 @@
             image-rendering: crisp-edges;
         }
 
+        .marquee-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
         .marquee-container:active .marquee-track {
             animation-play-state: paused;
         }
@@ -207,6 +216,37 @@
             0% { transform: scale(1); }
             65% { transform: scale(0.7); } 
             100% { transform: scale(0); }
+        }
+
+        #section-4 {
+            width: 100%;
+            padding: 60px 0;
+            overflow: hidden;
+            background-image: url('BackgroundS4.gif');
+            background-repeat: repeat;
+            background-size: 180px 180px;
+            animation: scrollS4 12s linear infinite;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+        }
+
+        @keyframes scrollS4 {
+            from { background-position: 0 0; }
+            to { background-position: -180px 180px; }
+        }
+
+        .about-atcf-image {
+            display: block;
+            width: 100%;
+            max-width: 650px;
+            height: auto;
+            padding: 0 20px;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
         }
     </style>
 </head>
@@ -257,6 +297,28 @@
         </div>
     </section>
 
+    <section id="section-4">
+        <img src="AboutATCFS4.png" alt="About ATCF" class="about-atcf-image">
+
+        <div class="marquee-container">
+            <div class="marquee-track">
+                <div class="marquee-item"><img src="ATCFProgress1.png" alt="ATCF Progress"></div>
+                <div class="marquee-item"><img src="ATCFProgress2.png" alt="ATCF Progress"></div>
+                <div class="marquee-item"><img src="ATCFProgress3.png" alt="ATCF Progress"></div>
+                <div class="marquee-item"><video src="ATCFProgress4.mp4" autoplay loop muted playsinline></video></div>
+                <div class="marquee-item"><video src="ATCFProgress5.mp4" autoplay loop muted playsinline></video></div>
+                <div class="marquee-item"><img src="ATCFProgress6.png" alt="ATCF Progress"></div>
+
+                <div class="marquee-item"><img src="ATCFProgress1.png" alt="ATCF Progress"></div>
+                <div class="marquee-item"><img src="ATCFProgress2.png" alt="ATCF Progress"></div>
+                <div class="marquee-item"><img src="ATCFProgress3.png" alt="ATCF Progress"></div>
+                <div class="marquee-item"><video src="ATCFProgress4.mp4" autoplay loop muted playsinline></video></div>
+                <div class="marquee-item"><video src="ATCFProgress5.mp4" autoplay loop muted playsinline></video></div>
+                <div class="marquee-item"><img src="ATCFProgress6.png" alt="ATCF Progress"></div>
+            </div>
+        </div>
+    </section>
+
     <script>
         const GIF_DURATION = 1800; 
         const GIF_SRC = 'PawcideS1.gif';
@@ -278,7 +340,7 @@
         window.addEventListener('load', playAnimation);
         titleContainer.addEventListener('click', playAnimation);
 
-        const SPAWN_POOL = ['Yourefunny.gif', 'Wave.gif', 'Silly.gif'];
+        const SPAWN_POOL = ['Yourefunny.gif', 'Wave.gif', 'Silly.gif', 'Confused.gif', 'Amused.gif', 'Tired.gif'];
         const MAX_SCREEN_ITEMS = 5;    
         const SPAWN_INTERVAL_MS = 4000; 
 
