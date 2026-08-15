@@ -260,7 +260,7 @@
             100% { transform: scale(0); }
         }
 
-        /* More Star stuff particle */
+        /* star burst particles for new cat discoveries */
         .star-burst-container {
             position: fixed;
             z-index: 10001; 
@@ -400,6 +400,7 @@
                 <div class="marquee-item"><video src="ATCFProgress4.mp4" autoplay loop muted playsinline></video></div>
                 <div class="marquee-item"><video src="ATCFProgress5.mp4" autoplay loop muted playsinline></video></div>
                 <div class="marquee-item"><img src="ATCFProgress6.png" alt="ATCF Progress"></div>
+                <div class="marquee-item"><video src="ATCFProgress7.mp4" autoplay loop muted playsinline></video></div>
 
                 <div class="marquee-item"><img src="ATCFProgress1.png" alt="ATCF Progress"></div>
                 <div class="marquee-item"><img src="ATCFProgress2.png" alt="ATCF Progress"></div>
@@ -407,6 +408,7 @@
                 <div class="marquee-item"><video src="ATCFProgress4.mp4" autoplay loop muted playsinline></video></div>
                 <div class="marquee-item"><video src="ATCFProgress5.mp4" autoplay loop muted playsinline></video></div>
                 <div class="marquee-item"><img src="ATCFProgress6.png" alt="ATCF Progress"></div>
+                <div class="marquee-item"><video src="ATCFProgress7.mp4" autoplay loop muted playsinline></video></div>
             </div>
         </div>
     </section>
@@ -463,7 +465,7 @@
 
         window.addEventListener('load', refreshClickedCatsRow);
 
-        // little star explosion for new cat
+        // little star explosion for when you find a NEW cat you haven't seen before
         function spawnStarBurst(x, y) {
             const container = document.createElement('div');
             container.classList.add('star-burst-container');
