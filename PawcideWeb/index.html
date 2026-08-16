@@ -260,7 +260,7 @@
             100% { transform: scale(0); }
         }
 
-        /* star burst particles for new cat discoveries */
+        /* star burst particles for the new cat stuff, also hi Robin */
         .star-burst-container {
             position: fixed;
             z-index: 10001; 
@@ -414,7 +414,7 @@
     </section>
 
     <script>
-        const GIF_DURATION = 1800; 
+        const gifLengthStuffIdk = 1800; 
         const GIF_SRC = 'PawcideS1.gif';
         const titleContainer = document.getElementById('title-container');
         const titleGif = document.getElementById('title-gif');
@@ -429,33 +429,33 @@
             timerId = setTimeout(() => {
                 titleContainer.classList.remove('playing');
                 titleContainer.classList.add('stopped');
-            }, GIF_DURATION);
+            }, gifLengthStuffIdk);
         }
         window.addEventListener('load', playAnimation);
         titleContainer.addEventListener('click', playAnimation);
 
         // clicked cats tracking thingy section
-        const CATS_KEY = 'pawcide_clicked_cats';
+        const catThingKey = 'pawcide_clicked_cats';
 
-        function getClickedCats() {
+        function getCatClickedThingIdk() {
             try {
-                return JSON.parse(localStorage.getItem(CATS_KEY)) || [];
+                return JSON.parse(localStorage.getItem(catThingKey)) || [];
             } catch (e) {
                 return []; 
             }
         }
 
-        function markCatClicked(filename) {
-            const clicked = getClickedCats();
+        function catClickedThingDoStuff(filename) {
+            const clicked = getCatClickedThingIdk();
             if (!clicked.includes(filename)) {
                 clicked.push(filename);
-                localStorage.setItem(CATS_KEY, JSON.stringify(clicked));
+                localStorage.setItem(catThingKey, JSON.stringify(clicked));
             }
-            refreshClickedCatsRow();
+            updateCatRowThingy();
         }
 
-        function refreshClickedCatsRow() {
-            const clicked = getClickedCats();
+        function updateCatRowThingy() {
+            const clicked = getCatClickedThingIdk();
             document.querySelectorAll('#clicked-cats-row img').forEach(img => {
                 if (clicked.includes(img.dataset.cat)) {
                     img.classList.add('unlocked');
@@ -463,10 +463,10 @@
             });
         }
 
-        window.addEventListener('load', refreshClickedCatsRow);
+        window.addEventListener('load', updateCatRowThingy);
 
         // little star explosion for when you find a NEW cat you haven't seen before
-        function spawnStarBurst(x, y) {
+        function doTheStarThing(x, y) {
             const container = document.createElement('div');
             container.classList.add('star-burst-container');
             container.style.left = x + 'px';
@@ -492,12 +492,12 @@
             setTimeout(() => container.remove(), 1100); 
         }
 
-        const SPAWN_POOL = ['Yourefunny.gif', 'Wave.gif', 'Silly.gif', 'Confused.gif', 'Amused.gif', 'Tired.gif', 'Calico.gif', 'NoReaction.gif', 'Dizzy.gif', 'Geeked.gif', 'OrangeTabby.gif'];
-        const MAX_SCREEN_ITEMS = 5;    
-        const SPAWN_INTERVAL_MS = 4000; 
+        const catSpawnListWhatever = ['Yourefunny.gif', 'Wave.gif', 'Silly.gif', 'Confused.gif', 'Amused.gif', 'Tired.gif', 'Calico.gif', 'NoReaction.gif', 'Dizzy.gif', 'Geeked.gif', 'OrangeTabby.gif'];
+        const maxCatsOnScreenIdk = 5;    
+        const spawnEveryWhateverMs = 4000; 
 
-        function createFloatingElement() {
-            if (document.querySelectorAll('.floating-container').length >= MAX_SCREEN_ITEMS) {
+        function makeFloatyCatIdk() {
+            if (document.querySelectorAll('.floating-container').length >= maxCatsOnScreenIdk) {
                 return;
             }
 
@@ -505,7 +505,7 @@
             container.classList.add('floating-container');
 
             const gif = document.createElement('img');
-            gif.src = SPAWN_POOL[Math.floor(Math.random() * SPAWN_POOL.length)];
+            gif.src = catSpawnListWhatever[Math.floor(Math.random() * catSpawnListWhatever.length)];
             gif.alt = "Floating Arcade Asset";
             gif.classList.add('floating-gif-item');
 
@@ -543,11 +543,11 @@
 
             gif.addEventListener('click', (e) => {
                 const filename = gif.src.split('/').pop();
-                const isNewCat = !getClickedCats().includes(filename);
+                const isNewCat = !getCatClickedThingIdk().includes(filename);
                 if (isNewCat) {
-                    spawnStarBurst(e.clientX, e.clientY);
+                    doTheStarThing(e.clientX, e.clientY);
                 }
-                markCatClicked(filename); 
+                catClickedThingDoStuff(filename); 
                 gif.classList.add('shrinking');
                 gif.addEventListener('animationend', () => {
                     container.remove();
@@ -563,7 +563,7 @@
             container.appendChild(gif);
             document.body.appendChild(container);
         }
-        setInterval(createFloatingElement, SPAWN_INTERVAL_MS);
+        setInterval(makeFloatyCatIdk, spawnEveryWhateverMs);
         //Made by pawcide. For Paweb :3 *licks you* *paws at you*  mrowp meowww
     </script>
 
