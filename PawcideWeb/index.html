@@ -159,6 +159,38 @@
             image-rendering: crisp-edges;
         }
 
+        /* the button img itself. width is 100% but of WHAT exactly?? see below lol */
+        .theBtnImgThing {
+            display: block;
+            width: 100%;
+            height: auto;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            transition: transform 0.15s ease;
+        }
+
+        /* this is the actual size control, NOT the img one. dont ask me why,
+           past me figured it out at some point and past me is asleep rn */
+        .clicky_wrap_dontTouch {
+            display: block;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .theBtnImgThing:hover {
+            transform: scale(1.02); /* barely does anything but felt wrong w/o it */
+        }
+
+        /* wraps the about img + the button so they stick together.
+           if u remove this the button flies off somewhere idk, dont */
+        .aboutThingyWrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            gap: 16px;
+        }
+
         .marquee-container {
             width: 100%;
             overflow: hidden;
@@ -260,7 +292,7 @@
             100% { transform: scale(0); }
         }
 
-        /* star burst particles for the new cat stuff, also hi Robin */
+        /* star burst stuff */
         .star-burst-container {
             position: fixed;
             z-index: 10001; 
@@ -356,7 +388,14 @@
     </section>
 
     <section id="section-3">
-        <img src="GamesS3.png" alt="Games Info" class="games-image">
+        <div class="aboutThingyWrap">
+            <img src="GamesS3.png" alt="Games Info" class="games-image">
+
+            <!-- cc button. dont ask why its own link twice (see s4 too) just copy paste from here if i ever add more -->
+            <a href="https://www.curseforge.com/minecraft/mc-mods/collectors-caravan" target="_blank" rel="noopener noreferrer" class="clicky_wrap_dontTouch">
+                <img src="GoToCC.png" alt="Go to Collector's Caravan" class="theBtnImgThing">
+            </a>
+        </div>
 
         <div class="marquee-container">
             <div class="marquee-track">
@@ -390,7 +429,14 @@
     </section>
 
     <section id="section-4">
-        <img src="AboutATCFS4.png" alt="About ATCF" class="about-atcf-image">
+        <div class="aboutThingyWrap">
+            <img src="AboutATCFS4.png" alt="About ATCF" class="about-atcf-image">
+
+            <!-- discord button, same deal as the cc one up in s3. same classes on purpose so they match, dont make new ones pls -->
+            <a href="https://discord.gg/nMyx6b6p22" target="_blank" rel="noopener noreferrer" class="clicky_wrap_dontTouch">
+                <img src="GoToATCF.png" alt="Go to ATCF Discord" class="theBtnImgThing">
+            </a>
+        </div>
 
         <div class="marquee-container">
             <div class="marquee-track">
@@ -465,7 +511,7 @@
 
         window.addEventListener('load', updateCatRowThingy);
 
-        // little star explosion for when you find a NEW cat you haven't seen before
+        // little star explosion for when you find a NEW cat 
         function doTheStarThing(x, y) {
             const container = document.createElement('div');
             container.classList.add('star-burst-container');
