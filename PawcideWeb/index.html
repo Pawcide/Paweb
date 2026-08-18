@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pawcide</title>
+    <link rel="icon" type="image/png" href="WebIcon.png">
     <style>
         * {
             box-sizing: border-box;
@@ -94,6 +95,47 @@
             margin-top: 40px;
         }
 
+        .certRowThingHolder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .certImgIdk {
+            width: 320px;
+            height: auto;
+            image-rendering: pixelated;
+            filter: grayscale(100%) brightness(0.3);
+            opacity: 0.5;
+            transition: filter 0.2s, opacity 0.2s;
+            cursor: pointer;
+        }
+
+        .certImgIdk.certDoneYay {
+            filter: none;
+            opacity: 1;
+        }
+
+        .certFlyBoiOverlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .certFlyBoiImg {
+            width: min(80vw, 500px);
+            image-rendering: pixelated;
+            will-change: transform, opacity;
+        }
+
         .clicked-cats-image {
             display: block;
             width: 100%;
@@ -104,13 +146,25 @@
 
         .clicked-cats-row {
             position: absolute; 
-            top: 44%; 
-            bottom: 6%;
+            top: 27%; 
+            bottom: 50%;
             left: 6%;
             right: 6%;
             display: flex;
             flex-wrap: wrap;
             align-content: flex-start; 
+            gap: 3% 2%;
+        }
+
+        .rare-cats-row {
+            position: absolute;
+            top: 77%;
+            bottom: 3%;
+            left: 6%;
+            right: 6%;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
             gap: 3% 2%;
         }
 
@@ -124,7 +178,19 @@
             transition: filter 0.3s ease; 
         }
 
-        .clicked-cats-row img.unlocked {
+        /* only 4 of these so they can be chonkier than the regular row, no wrap needed */
+        .rare-cats-row img {
+            width: 14%; 
+            height: auto;
+            aspect-ratio: 1 / 1;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            filter: grayscale(100%) brightness(0.1) contrast(0.7); 
+            transition: filter 0.3s ease; 
+        }
+
+        .clicked-cats-row img.unlocked,
+        .rare-cats-row img.unlocked {
             filter: none; 
         }
 
@@ -369,6 +435,7 @@
     <section id="section-2">
         <img src="AboutMeS2.png" alt="About Robin" class="about-image">
 
+        <div class="certRowThingHolder">
         <div class="clicked-cats-wrapper">
             <img src="AboutClickedCats.png" alt="Clicked Cats" class="clicked-cats-image">
             <div class="clicked-cats-row" id="clicked-cats-row">
@@ -384,6 +451,14 @@
                 <img src="Geeked.gif" data-cat="Geeked.gif" alt="Clicked cat">
                 <img src="OrangeTabby.gif" data-cat="OrangeTabby.gif" alt="Clicked cat">
             </div>
+            <div class="rare-cats-row" id="rare-cats-row">
+                <img src="Blahh.gif" data-cat="Blahh.gif" alt="Rare clicked cat">
+                <img src="Hapi.gif" data-cat="Hapi.gif" alt="Rare clicked cat">
+                <img src="Sad.gif" data-cat="Sad.gif" alt="Rare clicked cat">
+                <img src="Serioused.gif" data-cat="Serioused.gif" alt="Rare clicked cat">
+            </div>
+        </div>
+        <img id="certThingImg" src="Pawrtificate.png" alt="Pawrtificate" class="certImgIdk">
         </div>
     </section>
 
@@ -502,16 +577,74 @@
 
         function updateCatRowThingy() {
             const clicked = getCatClickedThingIdk();
-            document.querySelectorAll('#clicked-cats-row img').forEach(img => {
+            // covers both rows now, same key tracks everything so its fine
+            document.querySelectorAll('#clicked-cats-row img, #rare-cats-row img').forEach(img => {
                 if (clicked.includes(img.dataset.cat)) {
                     img.classList.add('unlocked');
                 }
             });
+
+            const allCatNamesWhatever = [...document.querySelectorAll('#clicked-cats-row img, #rare-cats-row img')].map(i => i.dataset.cat);
+            const gotEmAll = allCatNamesWhatever.every(c => clicked.includes(c));
+            const certEl = document.getElementById('certThingImg');
+            const certSeenAlready = localStorage.getItem('pawcide_cert_seen');
+            if (gotEmAll && certEl) {
+                certEl.classList.add('certDoneYay');
+                if (!certSeenAlready) {
+                    localStorage.setItem('pawcide_cert_seen', '1');
+                    doTheCertFlyThing();
+                }
+            }
         }
 
         window.addEventListener('load', updateCatRowThingy);
 
-        // little star explosion for when you find a NEW cat 
+        // the big certificate moment. spawns huge in the middle, waits around, then zooms to where it lives
+        function doTheCertFlyThing() {
+            const certEl = document.getElementById('certThingImg');
+            if (!certEl) return;
+
+            const overlay = document.createElement('div');
+            overlay.classList.add('certFlyBoiOverlay');
+            const flyImg = document.createElement('img');
+            flyImg.src = 'Pawrtificate.png';
+            flyImg.classList.add('certFlyBoiImg');
+            flyImg.style.opacity = '0';
+            flyImg.style.transform = 'scale(0.1) rotate(-25deg)';
+            flyImg.style.transition = 'transform 0.28s cubic-bezier(.2,1.4,.4,1), opacity 0.15s ease-out';
+            overlay.appendChild(flyImg);
+            document.body.appendChild(overlay);
+
+            requestAnimationFrame(() => {
+                flyImg.style.opacity = '1';
+                flyImg.style.transform = 'scale(1) rotate(0deg)';
+            });
+
+            setTimeout(() => {
+                const spot = certEl.getBoundingClientRect();
+                const cur = flyImg.getBoundingClientRect();
+                const dx = (spot.left + spot.width / 2) - (cur.left + cur.width / 2);
+                const dy = (spot.top + spot.height / 2) - (cur.top + cur.height / 2);
+                const scaleDown = spot.width / cur.width;
+
+                flyImg.style.transition = 'transform 0.8s cubic-bezier(.15,.7,.3,1), opacity 0.15s ease-in 0.65s';
+                flyImg.style.transform = `translate(${dx}px, ${dy}px) scale(${scaleDown})`;
+                flyImg.style.opacity = '0';
+
+                setTimeout(() => {
+                    overlay.remove();
+                }, 900);
+            }, 1800);
+        }
+
+        document.addEventListener('click', (e) => {
+            const certEl = document.getElementById('certThingImg');
+            if (certEl && e.target === certEl && certEl.classList.contains('certDoneYay')) {
+                doTheCertFlyThing();
+            }
+        });
+
+        // little star explosion for when you find a NEW cat you haven't seen before
         function doTheStarThing(x, y) {
             const container = document.createElement('div');
             container.classList.add('star-burst-container');
@@ -539,6 +672,9 @@
         }
 
         const catSpawnListWhatever = ['Yourefunny.gif', 'Wave.gif', 'Silly.gif', 'Confused.gif', 'Amused.gif', 'Tired.gif', 'Calico.gif', 'NoReaction.gif', 'Dizzy.gif', 'Geeked.gif', 'OrangeTabby.gif'];
+        // the SPECIAL ones. dont spawn as much, see rareChanceIdkPercent below
+        const rareCatSpawnListShh = ['Blahh.gif', 'Hapi.gif', 'Sad.gif', 'Serioused.gif'];
+        const rareChanceIdkPercent = 0.05; // 5%, splitting the difference between 1 (too stingy) and 40 (too generous)
         const maxCatsOnScreenIdk = 5;    
         const spawnEveryWhateverMs = 4000; 
 
@@ -551,7 +687,9 @@
             container.classList.add('floating-container');
 
             const gif = document.createElement('img');
-            gif.src = catSpawnListWhatever[Math.floor(Math.random() * catSpawnListWhatever.length)];
+            const rolledRareOMG = Math.random() < rareChanceIdkPercent;
+            const pickFromHere = rolledRareOMG ? rareCatSpawnListShh : catSpawnListWhatever;
+            gif.src = pickFromHere[Math.floor(Math.random() * pickFromHere.length)];
             gif.alt = "Floating Arcade Asset";
             gif.classList.add('floating-gif-item');
 
