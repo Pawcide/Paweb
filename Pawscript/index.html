@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawcide - Pawscript</title>
+    <link rel="icon" type="image/png" href="PawebIcon.png">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            background-color: #111;
+            font-family: sans-serif;
+        }
+
+        #section-pawscript {
+            width: 100%;
+            min-height: 100vh;
+            padding: 60px 0;
+            overflow: hidden;
+            background-image: url('BackgroundPawscript.gif');
+            background-repeat: repeat;
+            background-size: 180px 180px;
+            animation: scrollPawscript 12s linear infinite;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+        }
+
+        @keyframes scrollPawscript {
+            from { background-position: 0 0; }
+            to { background-position: -180px 180px; }
+        }
+
+        .about-pawscript-image {
+            display: block;
+            width: 100%;
+            max-width: 760px;
+            height: auto;
+            padding: 0 20px;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .pawscriptThingyWrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            gap: 16px;
+        }
+
+        .btnPicThingy {
+            display: block;
+            width: auto;
+            height: 80px;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            transition: transform 0.15s ease;
+        }
+
+        .clickyWrapIdk {
+            display: block;
+        }
+
+        .btnPicThingy:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+
+    <section id="section-pawscript">
+        <div class="pawscriptThingyWrap">
+            <img src="AboutPawscript.png" alt="Pawscript" class="about-pawscript-image">
+
+            <a href="pawscript regular v1.ttf" download class="clickyWrapIdk">
+                <img src="DownloadPawscriptRegular.png" alt="Download Pawscript Regular" class="btnPicThingy">
+            </a>
+
+            <a href="https://pawcide.github.io/Paweb/" class="clickyWrapIdk">
+                <img src="GoToPawrtal.png" alt="Go to Pawrtal" class="btnPicThingy">
+            </a>
+        </div>
+    </section>
+
+</body>
+</html>
