@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawcide - Friends</title>
+    <link rel="icon" type="image/png" href="PawebIcon.png">
+    <style>
+        @font-face {
+            font-family: 'Pawscript';
+            src: url('pawscript regular v1.ttf') format('truetype');
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            background-color: #111;
+            font-family: sans-serif;
+        }
+
+        #section-friends {
+            width: 100%;
+            min-height: 100vh;
+            padding: 60px 0;
+            overflow: hidden;
+            background-image: url('BackgroundFriends.gif');
+            background-repeat: repeat;
+            background-size: 180px 180px;
+            animation: scrollFriends 12s linear infinite;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+        }
+
+        @keyframes scrollFriends {
+            from { background-position: 0 0; }
+            to { background-position: -180px 180px; }
+        }
+
+        .about-friends-image {
+            display: block;
+            width: 100%;
+            max-width: 650px;
+            height: auto;
+            padding: 0 20px;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .friendsThingyWrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            gap: 16px;
+        }
+
+        .friendLinksPileIdk {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            padding: 0 20px;
+        }
+
+        .friendLinkTextThingy {
+            font-family: 'Pawscript', sans-serif;
+            font-size: 1.8rem;
+            color: #3b82f6;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            word-break: break-all;
+            max-width: 90vw;
+            transition: transform 0.15s ease;
+        }
+
+        .friendLinkTextThingy:hover {
+            animation: friendJitterIdk 0.08s linear infinite;
+        }
+
+        @keyframes friendJitterIdk {
+            0% { transform: scale(1.08) rotate(0deg) translate(0, 0); }
+            25% { transform: scale(1.08) rotate(-0.5deg) translate(-0.5px, 0.5px); }
+            50% { transform: scale(1.08) rotate(0deg) translate(0.5px, -0.5px); }
+            75% { transform: scale(1.08) rotate(0.5deg) translate(-0.5px, -0.5px); }
+            100% { transform: scale(1.08) rotate(0deg) translate(0, 0); }
+        }
+    </style>
+</head>
+<body>
+
+    <section id="section-friends">
+        <div class="friendsThingyWrap">
+            <img src="AboutFriends.png" alt="Friends" class="about-friends-image">
+
+            <div class="friendLinksPileIdk">
+                <a href="https://pylonduck.straw.page/" target="_blank" rel="noopener noreferrer" class="friendLinkTextThingy">https://pylonduck.straw.page/</a>
+
+                <a href="https://fry-fr.neocities.org/" target="_blank" rel="noopener noreferrer" class="friendLinkTextThingy">https://fry-fr.neocities.org/</a>
+
+                <a href="https://fractyl.neocities.org/" target="_blank" rel="noopener noreferrer" class="friendLinkTextThingy">https://fractyl.neocities.org/</a>
+
+                <a href="https://foxgirlmaki.neocities.org/" target="_blank" rel="noopener noreferrer" class="friendLinkTextThingy">https://foxgirlmaki.neocities.org/</a>
+
+                <a href="https://jansani.github.io/" target="_blank" rel="noopener noreferrer" class="friendLinkTextThingy">https://jansani.github.io/</a>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
